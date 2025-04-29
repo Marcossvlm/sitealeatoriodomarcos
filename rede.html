@@ -35,6 +35,15 @@
       backdrop-filter: blur(5px);
       flex-wrap: wrap;
       z-index: 2;
+      transition: top 0.5s ease;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .navbar.hidden {
+      top: -200px;
     }
 
     .navbar h1 {
@@ -111,7 +120,7 @@
       align-items: center;
       text-align: center;
       padding: 20px;
-      margin-top: -50px;
+      margin-top: 100px;
     }
 
     .floating-title, .rgb-text {
@@ -176,27 +185,40 @@
       transform: rotate(360deg);
     }
 
-    /* Responsividade */
+    /* Botão de seta */
+    .toggle-navbar-btn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 100, 200, 0.8);
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .toggle-navbar-btn:hover {
+      background: rgba(0, 100, 200, 1);
+      transform: scale(1.1);
+    }
+
+    /* Mostrar o botão apenas em telas pequenas */
     @media (max-width: 768px) {
+      .toggle-navbar-btn {
+        display: block;
+      }
+
       .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        width: 100%;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 10px;
-      }
-
-      .nav-links a {
-        width: 100%;
-        text-align: center;
+        padding: 10px 20px;
       }
 
       .center-title {
-        margin-top: -30px;
+        margin-top: 120px;
       }
 
       .rgb-text {
@@ -224,7 +246,7 @@
   </style>
 </head>
 <body>
-  <div class="navbar">
+  <div class="navbar" id="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
       <a href="tu.html">Home</a>
@@ -238,6 +260,8 @@
       <a href="https://www.erro404.com">NÃO CLIQUE</a>
     </div>
   </div>
+
+  <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
   <div class="center-title">
     <div class="rgb-text">REDES</div>
@@ -262,6 +286,17 @@
         dropdown.classList.remove('show');
       }
     });
+
+    function toggleNavbar() {
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('hidden');
+      const button = document.querySelector('.toggle-navbar-btn');
+      if (navbar.classList.contains('hidden')) {
+        button.innerHTML = '▼';
+      } else {
+        button.innerHTML = '▲';
+      }
+    }
   </script>
 </body>
 </html>
