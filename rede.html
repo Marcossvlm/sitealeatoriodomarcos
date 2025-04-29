@@ -7,15 +7,21 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: Arial, sans-serif;
       background-image: url('fruta.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      background-attachment: fixed;
       color: #fff;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
@@ -27,12 +33,11 @@
       align-items: center;
       justify-content: space-between;
       backdrop-filter: blur(5px);
-      position: relative;
+      flex-wrap: wrap;
       z-index: 2;
     }
 
     .navbar h1 {
-      margin: 0;
       font-size: 24px;
       text-shadow: 1px 1px 2px #000;
     }
@@ -40,8 +45,8 @@
     .nav-links {
       display: flex;
       gap: 20px;
-      position: relative;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
@@ -82,7 +87,7 @@
     }
 
     .dropdown.show {
-      max-height: 100px;
+      max-height: 150px;
       opacity: 1;
     }
 
@@ -104,14 +109,14 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin-top: -80px;
       text-align: center;
+      padding: 20px;
+      margin-top: -50px;
     }
 
-    .floating-title {
+    .floating-title, .rgb-text {
       font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       font-size: 48px;
-      color: #ffffff;
       text-shadow: 2px 2px 4px #000;
       animation: float 3s ease-in-out infinite;
     }
@@ -130,33 +135,19 @@
       100% { transform: translateY(0px); }
     }
 
-    /* Efeito RGB brilhante */
     .rgb-text {
       font-size: 64px;
-      font-weight: bold;
-      color: #fff;
       animation: rgb-glow 1.5s infinite alternate;
     }
 
     @keyframes rgb-glow {
-      0% {
-        color: #ff0000;
-      }
-      25% {
-        color: #00ff00;
-      }
-      50% {
-        color: #0000ff;
-      }
-      75% {
-        color: #ff00ff;
-      }
-      100% {
-        color: #ffff00;
-      }
+      0% { color: #ff0000; }
+      25% { color: #00ff00; }
+      50% { color: #0000ff; }
+      75% { color: #ff00ff; }
+      100% { color: #ffff00; }
     }
 
-    /* Efeito de rotação nos links */
     .rotate-effect {
       display: inline-block;
       transition: transform 0.5s ease;
@@ -166,17 +157,17 @@
       transform: rotate(360deg);
     }
 
-    /* Estilo dos links abaixo */
     .links-container {
-      margin-top: 50px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     .links-container a {
-      display: block;
-      margin: 10px 0;
-      font-weight: bold;
       text-decoration: none;
       color: #ff0004;
+      font-weight: bold;
       font-size: 24px;
       transition: transform 0.5s ease;
     }
@@ -184,13 +175,59 @@
     .links-container a:hover {
       transform: rotate(360deg);
     }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .center-title {
+        margin-top: -30px;
+      }
+
+      .rgb-text {
+        font-size: 48px;
+      }
+
+      .links-container a {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .rgb-text {
+        font-size: 36px;
+      }
+
+      .links-container a {
+        font-size: 18px;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
-      <a href="tu.html">Home</a> <!-- Aqui foi corrigido -->
+      <a href="tu.html">Home</a>
       <div class="dropdown-container">
         <a onclick="toggleDropdown()">Meus Jogos</a>
         <div id="dropdown" class="dropdown">
@@ -202,7 +239,6 @@
     </div>
   </div>
 
-  <!-- Texto central com o efeito RGB -->
   <div class="center-title">
     <div class="rgb-text">REDES</div>
     <div class="links-container">
@@ -219,7 +255,7 @@
       dropdown.classList.toggle('show');
     }
 
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', function(event) {
       const dropdown = document.getElementById('dropdown');
       const container = document.querySelector('.dropdown-container');
       if (!container.contains(event.target)) {
