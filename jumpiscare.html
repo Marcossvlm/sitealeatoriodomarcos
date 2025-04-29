@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jumpiscarizado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background-image: url('dd.jpeg');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Navbar azul fixa */
+    .navbar {
+      background: rgba(0, 100, 200, 0.7);
+      backdrop-filter: blur(5px);
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: top 0.4s ease, opacity 0.4s ease;
+    }
+
+    .navbar.hidden {
+      top: -100px;
+      opacity: 0;
+    }
+
+    .navbar h1 {
+      font-size: 22px;
+      color: white;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    .dropdown-container {
+      position: relative;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 100, 200, 0.95);
+      border-radius: 8px;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      min-width: 150px;
+      z-index: 5;
+    }
+
+    .dropdown.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dropdown a {
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .dropdown a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Setinha só aparece em celular */
+    .toggle-navbar-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .toggle-navbar-btn {
+        display: flex;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.7);
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1500;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s, background 0.3s;
+      }
+
+      .toggle-navbar-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: rotate(90deg);
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 15px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-links a {
+        width: 100%;
+      }
+
+      .title {
+        font-size: 1.5rem;
+        margin-top: 140px;
+      }
+
+      .image.middle {
+        width: 200px;
+        height: 200px;
+      }
+
+      .image {
+        width: 120px;
+        height: 120px;
+      }
+    }
+
+    .title {
+      font-size: 2rem;
+      color: #00ffea;
+      text-shadow: 2px 2px 10px #000;
+      margin-top: 120px;
+      margin-bottom: 30px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .image {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 15px black;
+    }
+
+    .image.middle {
+      width: 300px;
+      height: 300px;
+    }
+
+    .spin {
+      animation: spin 10s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-navbar-btn" id="toggle-btn" onclick="toggleNavbar()">▲</button>
+
+  <div class="navbar" id="navbar">
+    <h1>SITE ALEATÓRIO DO MARCOS</h1>
+    <div class="nav-links">
+      <a href="tu.html">Home</a>
+      <div class="dropdown-container">
+        <a href="javascript:void(0)" onclick="toggleDropdown()">Meus Jogos</a>
+        <div id="dropdown" class="dropdown">
+          <a href="jumpiscare.html">Nehum jogo :/</a>
+        </div>
+      </div>
+      <a href="rede.html">Redes</a>
+      <a href="jumpiscare.html">NÃO CLIQUE</a>
+    </div>
+  </div>
+
+  <div class="title">VOCE FOI JUMPISCARIZADO KAKQKQKKWKQKWK</div>
+
+  <div class="container">
+    <img src="dd.jpeg" alt="Imagem Esquerda" class="image spin">
+    <img src="dd.jpeg" alt="Imagem Central" class="image middle">
+    <img src="dd.jpeg" alt="Imagem Direita" class="image spin">
+  </div>
+
+  <audio autoplay loop>
+    <source src="gemi.mp3" type="audio/mpeg">
+  </audio>
+  <script>
+    document.querySelector('audio').volume = 10.0;
+  </script>
+  
+
+  <script>
+    function toggleNavbar() {
+      const navbar = document.getElementById('navbar');
+      const btn = document.getElementById('toggle-btn');
+
+      // Só ativa em telas pequenas
+      if (window.innerWidth <= 768) {
+        navbar.classList.toggle('hidden');
+        btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
+      }
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('dropdown');
+      const container = document.querySelector('.dropdown-container');
+      if (!container.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
