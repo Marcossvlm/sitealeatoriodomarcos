@@ -36,6 +36,14 @@
       backdrop-filter: blur(5px);
       z-index: 2;
       position: relative;
+      transition: top 0.4s ease, opacity 0.4s ease;
+    }
+
+    .navbar.hidden {
+      top: -200px;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
     }
 
     .navbar h1 {
@@ -141,6 +149,30 @@
       50% { transform: translateY(-15px); }
     }
 
+    /* Botão para ocultar/mostrar a barra */
+    .toggle-navbar-btn {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 5;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .toggle-navbar-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: rotate(90deg);
+    }
+
     /* Responsividade */
     @media (max-width: 768px) {
       .navbar {
@@ -173,6 +205,11 @@
       .subtitle {
         font-size: 18px;
       }
+
+      /* Mostrar o botão apenas no celular */
+      .toggle-navbar-btn {
+        display: block;
+      }
     }
 
     @media (max-width: 480px) {
@@ -196,7 +233,9 @@
 </head>
 
 <body>
-  <div class="navbar">
+  <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
+
+  <div class="navbar" id="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
       <a href="tu.html">Home</a>
@@ -229,6 +268,20 @@
         dropdown.classList.remove('show');
       }
     });
+
+    function toggleNavbar() {
+      const navbar = document.getElementById('navbar');
+      const btn = document.querySelector('.toggle-navbar-btn');
+
+      navbar.classList.toggle('hidden');
+
+      // Altera o ícone da seta
+      if (navbar.classList.contains('hidden')) {
+        btn.innerText = '▼';
+      } else {
+        btn.innerText = '▲';
+      }
+    }
   </script>
 </body>
 </html>
