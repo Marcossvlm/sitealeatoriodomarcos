@@ -149,7 +149,6 @@
       50% { transform: translateY(-15px); }
     }
 
-    /* Botão para ocultar/mostrar a barra */
     .toggle-navbar-btn {
       display: none;
       position: fixed;
@@ -173,7 +172,6 @@
       transform: rotate(90deg);
     }
 
-    /* Responsividade */
     @media (max-width: 768px) {
       .navbar {
         flex-direction: column;
@@ -206,7 +204,6 @@
         font-size: 18px;
       }
 
-      /* Mostrar o botão apenas no celular */
       .toggle-navbar-btn {
         display: block;
       }
@@ -275,7 +272,6 @@
 
       navbar.classList.toggle('hidden');
 
-      // Altera o ícone da seta
       if (navbar.classList.contains('hidden')) {
         btn.innerText = '▼';
       } else {
@@ -283,5 +279,7 @@
       }
     }
   </script>
+
+  <audio src="calma.mp3" autoplay hidden></audio>
 </body>
 </html>
