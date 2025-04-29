@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo do Botão Móvel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: #fff;
+    }
+
+    .navbar {
+      background: rgba(0, 100, 200, 0.6);
+      padding: 10px 20px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(5px);
+      position: fixed;
+      top: -80px;
+      left: 0;
+      z-index: 10;
+      opacity: 0;
+      transition: top 0.5s ease, opacity 0.5s ease;
+    }
+
+    .navbar.show {
+      top: 0;
+      opacity: 1;
+    }
+
+    .navbar.hide {
+      top: -80px;
+      opacity: 0;
+    }
+
+    .navbar h1 {
+      font-size: 24px;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+      color: #ffcc00;
+    }
+
+    /* Estilos do Dropdown */
+    .dropdown-container {
+      position: relative;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .dropdown a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      display: block;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+
+    .dropdown a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: #ffcc00;
+    }
+
+    /* Botão do jogo */
+    .game-button {
+      position: absolute;
+      background-color: #ff6347;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: left 0.8s ease, top 0.8s ease;
+      z-index: 5;
+    }
+
+    .game-button:active {
+      transform: scale(0.9);
+    }
+
+    /* Contador */
+    .counter {
+      font-size: 40px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    body {
+      cursor: url('https://upload.wikimedia.org/wikipedia/commons/5/56/Mouse_pointer.ico'), auto;
+      animation: shake 0.3s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .show-navbar-btn, .hide-navbar-btn {
+      position: absolute;
+      background-color: #ff6347;
+      border: none;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .show-navbar-btn {
+      top: 20px;
+      left: 20px;
+    }
+
+    .hide-navbar-btn {
+      top: 70px;
+      left: 20px;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .game-button {
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+
+      .counter {
+        font-size: 30px;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Barra Superior -->
+  <div class="navbar">
+    <h1>SITE ALEATÓRIO DO MARCOS</h1>
+    <div class="nav-links">
+      <a href="tu.html">Home</a>
+      <!-- Menu Meus Jogos com dropdown -->
+      <div class="dropdown-container">
+        <a href="javascript:void(0)" onclick="toggleDropdown()">Meus Jogos</a>
+        <div id="dropdown" class="dropdown">
+          <a href="mouselouko.html">Mouse Louko</a>
+          <!-- Adicione mais jogos aqui se desejar -->
+        </div>
+      </div>
+      <a href="https://www.instagram.com/sua-rede-social">Redes</a>
+      <a href="https://www.erro404.com">NÃO CLIQUE</a>
+    </div>
+  </div>
+
+  <!-- Botões para mostrar/ocultar a barra superior -->
+  <button class="show-navbar-btn" onclick="toggleNavbar()">Mostrar Barra</button>
+  <button class="hide-navbar-btn" id="hide-navbar-btn" onclick="toggleNavbar()">Esconder Barra</button>
+
+  <!-- Contador -->
+  <div class="counter" id="counter">Contador: 0</div>
+
+  <!-- Botão Móvel -->
+  <button class="game-button" onclick="moveButton()">Clique Aqui!</button>
+
+  <div class="spiral-background"></div>
+
+  <script>
+    let count = 0;
+
+    function moveButton() {
+      count++;
+      document.getElementById("counter").innerText = "Contador: " + count;
+
+      const button = document.querySelector('.game-button');
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      const randomX = Math.random() * (screenWidth - button.offsetWidth);
+      const randomY = Math.random() * (screenHeight - button.offsetHeight);
+
+      button.style.left = `${randomX}px`;
+      button.style.top = `${randomY}px`;
+    }
+
+    function toggleNavbar() {
+      const navbar = document.querySelector('.navbar');
+      const showButton = document.querySelector('.show-navbar-btn');
+      const hideButton = document.querySelector('.hide-navbar-btn');
+
+      if (navbar.classList.contains('hide') || !navbar.classList.contains('show')) {
+        navbar.classList.remove('hide');
+        navbar.classList.add('show');
+        showButton.style.display = "none";
+        hideButton.style.display = "block";
+      } else {
+        navbar.classList.remove('show');
+        navbar.classList.add('hide');
+        showButton.style.display = "block";
+        hideButton.style.display = "none";
+      }
+    }
+
+    document.querySelector('.hide-navbar-btn').style.display = "none";
+
+    const button = document.querySelector('.game-button');
+    button.addEventListener('mouseenter', () => {
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      const randomX = Math.random() * (screenWidth - button.offsetWidth);
+      const randomY = Math.random() * (screenHeight - button.offsetHeight);
+
+      button.style.left = `${randomX}px`;
+      button.style.top = `${randomY}px`;
+    });
+
+    // Função para abrir/fechar o dropdown de "Meus Jogos"
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown");
+      if (dropdown.style.display === "none" || dropdown.style.display === "") {
+        dropdown.style.display = "block";
+      } else {
+        dropdown.style.display = "none";
+      }
+    }
+
+    // Inicializando o dropdown como escondido
+    document.getElementById("dropdown").style.display = "none";
+  </script>
+
+</body>
+</html>

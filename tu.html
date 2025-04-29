@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Aleatório do Marcos</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('fruta.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: rgba(0, 100, 200, 0.6);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(5px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .navbar h1 {
+      font-size: 22px;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 8px 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      color: #ffcc00;
+    }
+
+    .dropdown-container {
+      position: relative;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 100, 200, 0.85);
+      border-radius: 5px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+    }
+
+    .dropdown.show {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .dropdown a {
+      color: white;
+      padding: 5px 10px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .center-title {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .floating-title {
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-size: 48px;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px #000;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: 300;
+      color: #eeeeee;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .navbar h1 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .floating-title {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .floating-title {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      .nav-links a {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>SITE ALEATÓRIO DO MARCOS</h1>
+    <div class="nav-links">
+      <a href="tu.html">Home</a> <!-- Aqui foi corrigido -->
+      <div class="dropdown-container">
+        <a onclick="toggleDropdown()">Meus Jogos</a>
+        <div id="dropdown" class="dropdown">
+          <a href="mouselouko.html">Mouse Louko</a>
+        </div>
+      </div>
+      <a href="https://www.instagram.com/sua-rede-social">Redes</a>
+      <a href="https://www.erro404.com">NÃO CLIQUE</a>
+    </div>
+  </div>
+
+  <div class="center-title">
+    <div class="floating-title">SITE ALEATÓRIO DO MARCOS</div>
+    <div class="subtitle">Sim, esse site existe</div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function (event) {
+      const dropdown = document.getElementById('dropdown');
+      const container = document.querySelector('.dropdown-container');
+      if (!container.contains(event.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
