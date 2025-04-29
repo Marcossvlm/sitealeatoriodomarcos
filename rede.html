@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Site Aleatório do Marcos</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
@@ -34,15 +34,15 @@
       justify-content: space-between;
       backdrop-filter: blur(5px);
       flex-wrap: wrap;
-      z-index: 2;
-      transition: top 0.5s ease;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
+      transition: top 0.5s ease;
+      z-index: 1000;
     }
 
-    .navbar.hidden {
+    .navbar.hide {
       top: -200px;
     }
 
@@ -120,7 +120,7 @@
       align-items: center;
       text-align: center;
       padding: 20px;
-      margin-top: 100px;
+      margin-top: 120px;
     }
 
     .floating-title, .rgb-text {
@@ -185,31 +185,29 @@
       transform: rotate(360deg);
     }
 
-    /* Botão de seta */
-    .toggle-navbar-btn {
+    /* Botão de esconder navbar */
+    .toggle-button {
       display: none;
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: rgba(0, 100, 200, 0.8);
-      border: none;
       color: white;
-      padding: 12px;
+      border: none;
+      padding: 10px 15px;
+      font-size: 24px;
       border-radius: 50%;
-      font-size: 20px;
       cursor: pointer;
-      z-index: 10;
-      transition: background 0.3s, transform 0.3s;
+      z-index: 1001;
+      transition: background 0.3s ease;
     }
 
-    .toggle-navbar-btn:hover {
+    .toggle-button:hover {
       background: rgba(0, 100, 200, 1);
-      transform: scale(1.1);
     }
 
-    /* Mostrar o botão apenas em telas pequenas */
     @media (max-width: 768px) {
-      .toggle-navbar-btn {
+      .toggle-button {
         display: block;
       }
 
@@ -218,7 +216,7 @@
       }
 
       .center-title {
-        margin-top: 120px;
+        margin-top: 130px;
       }
 
       .rgb-text {
@@ -246,6 +244,7 @@
   </style>
 </head>
 <body>
+
   <div class="navbar" id="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
@@ -261,7 +260,7 @@
     </div>
   </div>
 
-  <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
+  <button class="toggle-button" onclick="toggleNavbar()">▲</button>
 
   <div class="center-title">
     <div class="rgb-text">REDES</div>
@@ -289,9 +288,11 @@
 
     function toggleNavbar() {
       const navbar = document.getElementById('navbar');
-      navbar.classList.toggle('hidden');
-      const button = document.querySelector('.toggle-navbar-btn');
-      if (navbar.classList.contains('hidden')) {
+      const button = document.querySelector('.toggle-button');
+
+      navbar.classList.toggle('hide');
+
+      if (navbar.classList.contains('hide')) {
         button.innerHTML = '▼';
       } else {
         button.innerHTML = '▲';
