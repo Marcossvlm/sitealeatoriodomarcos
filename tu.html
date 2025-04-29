@@ -27,32 +27,35 @@
     }
 
     .navbar {
-      background: rgba(0, 100, 200, 0.6);
+      background: rgba(0, 100, 200, 0.7);
       padding: 15px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       backdrop-filter: blur(5px);
-      position: relative;
       z-index: 2;
+      position: relative;
     }
 
     .navbar h1 {
-      font-size: 22px;
-      text-shadow: 1px 1px 2px #000;
+      font-size: 24px;
+      text-shadow: 1px 1px 3px #000;
+      flex: 1;
     }
 
     .nav-links {
       display: flex;
-      gap: 15px;
       align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
       text-decoration: none;
       color: white;
       font-weight: bold;
-      padding: 8px 10px;
+      padding: 8px 12px;
       border-radius: 5px;
       transition: all 0.3s ease;
       cursor: pointer;
@@ -68,32 +71,39 @@
       position: relative;
     }
 
+    .dropdown-container > a {
+      display: inline-block;
+    }
+
     .dropdown {
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      background-color: rgba(0, 100, 200, 0.85);
-      border-radius: 5px;
-      padding: 10px;
+      background-color: rgba(0, 100, 200, 0.9);
+      border-radius: 8px;
+      padding: 10px 0;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
       max-height: 0;
       opacity: 0;
-      transition: max-height 0.4s ease, opacity 0.4s ease;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      min-width: 150px;
+      z-index: 5;
     }
 
     .dropdown.show {
-      max-height: 200px;
+      max-height: 300px;
       opacity: 1;
     }
 
     .dropdown a {
       color: white;
-      padding: 5px 10px;
+      padding: 8px 16px;
       text-decoration: none;
-      white-space: nowrap;
+      text-align: center;
+      transition: background-color 0.3s;
     }
 
     .dropdown a:hover {
@@ -107,57 +117,57 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 20px;
+      padding: 30px 20px;
     }
 
     .floating-title {
       font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-      font-size: 48px;
+      font-size: 50px;
       color: #ffffff;
-      text-shadow: 2px 2px 4px #000;
+      text-shadow: 2px 2px 5px #000;
       animation: float 3s ease-in-out infinite;
     }
 
     .subtitle {
-      margin-top: 10px;
-      font-size: 20px;
+      margin-top: 15px;
+      font-size: 22px;
       font-weight: 300;
       color: #eeeeee;
-      text-shadow: 1px 1px 2px #000;
+      text-shadow: 1px 1px 3px #000;
     }
 
     @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
     }
 
     /* Responsividade */
     @media (max-width: 768px) {
       .navbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
       }
-      
+
       .navbar h1 {
-        font-size: 20px;
+        font-size: 22px;
+        text-align: center;
         margin-bottom: 10px;
       }
 
       .nav-links {
         flex-direction: column;
-        gap: 10px;
         width: 100%;
+        gap: 10px;
       }
 
       .nav-links a {
         width: 100%;
         text-align: center;
-        padding: 10px;
+        padding: 10px 0;
       }
 
       .floating-title {
-        font-size: 36px;
+        font-size: 38px;
       }
 
       .subtitle {
@@ -167,7 +177,7 @@
 
     @media (max-width: 480px) {
       .floating-title {
-        font-size: 28px;
+        font-size: 30px;
       }
 
       .subtitle {
@@ -177,6 +187,10 @@
       .nav-links a {
         font-size: 16px;
       }
+
+      .dropdown {
+        min-width: 100px;
+      }
     }
   </style>
 </head>
@@ -185,7 +199,7 @@
   <div class="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
-      <a href="tu.html">Home</a> <!-- Aqui foi corrigido -->
+      <a href="tu.html">Home</a>
       <div class="dropdown-container">
         <a onclick="toggleDropdown()">Meus Jogos</a>
         <div id="dropdown" class="dropdown">
