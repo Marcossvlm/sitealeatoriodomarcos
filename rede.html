@@ -238,10 +238,27 @@
         min-width: 100px;
       }
     }
+
+    @keyframes rainbowGlow {
+      0% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
+      14% { color: orange; text-shadow: 0 0 5px orange, 0 0 10px orange; }
+      28% { color: yellow; text-shadow: 0 0 5px yellow, 0 0 10px yellow; }
+      42% { color: green; text-shadow: 0 0 5px green, 0 0 10px green; }
+      57% { color: cyan; text-shadow: 0 0 5px cyan, 0 0 10px cyan; }
+      71% { color: blue; text-shadow: 0 0 5px blue, 0 0 10px blue; }
+      85% { color: violet; text-shadow: 0 0 5px violet, 0 0 10px violet; }
+      100% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
+    }
   </style>
 </head>
 
 <body>
+  <!-- Música de fundo -->
+  <audio autoplay loop hidden>
+    <source src="calma.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
   <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
   <div class="navbar" id="navbar">
@@ -258,31 +275,14 @@
       <a href="jumpiscare.html">NÃO CLIQUE</a>
     </div>
   </div>
-<div class="center-title">
-  <div class="floating-title" style="animation: rainbowGlow 3s infinite; font-weight: bold;">
-  REDES
-  <style>
-    @keyframes rainbowGlow {
-      0% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
-      14% { color: orange; text-shadow: 0 0 5px orange, 0 0 10px orange; }
-      28% { color: yellow; text-shadow: 0 0 5px yellow, 0 0 10px yellow; }
-      42% { color: green; text-shadow: 0 0 5px green, 0 0 10px green; }
-      57% { color: cyan; text-shadow: 0 0 5px cyan, 0 0 10px cyan; }
-      71% { color: blue; text-shadow: 0 0 5px blue, 0 0 10px blue; }
-      85% { color: violet; text-shadow: 0 0 5px violet, 0 0 10px violet; }
-      100% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
-    }
-  </style>
-  </div>
-  <br>
+
+  <div class="center-title">
+    <div class="floating-title" style="animation: rainbowGlow 3s infinite; font-weight: bold;">REDES</div>
     <div class="links-container">
       <a href="https://youtube.com/@marcoss0502?si=SPHmZfZS2OQ-n7bp" target="_blank">Canal Marcoss0502</a>
-<br>
       <a href="https://youtube.com/@marcoss0502_2?si=5jENFJBAcClnMcfD" target="_blank">Canal Marcoss0502 2</a>
-
     </div>
   </div>
-
 
   <script>
     function toggleDropdown() {
@@ -303,12 +303,7 @@
       const btn = document.querySelector('.toggle-navbar-btn');
 
       navbar.classList.toggle('hidden');
-
-      if (navbar.classList.contains('hidden')) {
-        btn.innerText = '▼';
-      } else {
-        btn.innerText = '▲';
-      }
+      btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
     }
   </script>
 </body>
