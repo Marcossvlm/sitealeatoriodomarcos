@@ -129,36 +129,48 @@
       gap: 20px;
     }
 
-    .floating-title {
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-      font-size: 50px;
-      color: #ffffff;
-      text-shadow: 2px 2px 5px #000;
-      animation: float 3s ease-in-out infinite;
+    /* Steam card style */
+    #steam-card {
+      padding: 20px;
+      border: 3px solid #66c0f4;
+      border-radius: 15px;
+      background: linear-gradient(to bottom right, #1b2838, #171a21);
+      color: #c7d5e0;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px #66c0f4;
+      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .links-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
+    #steam-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #66c0f4;
+      margin-bottom: 10px;
     }
 
-    .links-container a {
-      text-decoration: none;
-      color: #ff0004;
+    #steam-name {
+      margin: 10px 0;
+      color: #66c0f4;
+    }
+
+    #steam-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #66c0f4;
+      color: #1b2838;
       font-weight: bold;
-      font-size: 24px;
-      transition: transform 0.4s ease;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 0 10px #66c0f4;
+      transition: 0.3s;
+      cursor: pointer;
     }
 
-    .links-container a:hover {
-      transform: rotate(360deg);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+    #steam-link:hover {
+      box-shadow: 0 0 20px #66c0f4;
     }
 
     .toggle-navbar-btn {
@@ -207,59 +219,24 @@
         text-align: center;
         padding: 10px 0;
       }
-
-      .floating-title {
-        font-size: 38px;
-      }
-
-      .links-container a {
-        font-size: 20px;
-      }
-
-      .toggle-navbar-btn {
-        display: block;
-      }
     }
 
     @media (max-width: 480px) {
-      .floating-title {
-        font-size: 30px;
+      #steam-card {
+        width: 95%;
       }
-
-      .links-container a {
-        font-size: 18px;
-      }
-
-      .nav-links a {
-        font-size: 16px;
-      }
-
-      .dropdown {
-        min-width: 100px;
-      }
-    }
-
-    @keyframes rainbowGlow {
-      0% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
-      14% { color: orange; text-shadow: 0 0 5px orange, 0 0 10px orange; }
-      28% { color: yellow; text-shadow: 0 0 5px yellow, 0 0 10px yellow; }
-      42% { color: green; text-shadow: 0 0 5px green, 0 0 10px green; }
-      57% { color: cyan; text-shadow: 0 0 5px cyan, 0 0 10px cyan; }
-      71% { color: blue; text-shadow: 0 0 5px blue, 0 0 10px blue; }
-      85% { color: violet; text-shadow: 0 0 5px violet, 0 0 10px violet; }
-      100% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
     }
   </style>
 </head>
 
 <body>
   <!-- Música de fundo -->
- <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
+  <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
 
-<script>
-  const audio = document.getElementById('meuAudio');
-  audio.volume = 0.45; // volume entre 0 e 1
-</script>
+  <script>
+    const audio = document.getElementById('meuAudio');
+    audio.volume = 0.45; // volume entre 0 e 1
+  </script>
 
   <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
@@ -280,77 +257,74 @@
   </div>
 
   <div class="center-title">
-  <div 
-    style="
-      padding: 20px;
-      border: 3px solid #66c0f4;
-      border-radius: 15px;
-      background: linear-gradient(to bottom right, #1b2838, #171a21);
-      color: #c7d5e0;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 15px #66c0f4;
-      text-align: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    "
-  >
-    <img id="steam-avatar" src="" alt="Avatar Steam" style="width:100px;height:100px;border-radius:50%;border:2px solid #66c0f4;margin-bottom:10px;">
-    <h2 id="steam-name" style="margin:10px 0;color:#66c0f4;">Carregando...</h2>
-    <p>Nível: <strong id="steam-level">?</strong></p>
-    <a 
-      id="steam-link"
-      href="#" 
-      target="_blank" 
-      style="
-        display:inline-block;
-        padding:10px 20px;
-        background-color:#66c0f4;
-        color:#1b2838;
-        font-weight:bold;
-        border-radius:8px;
-        text-decoration:none;
-        box-shadow:0 0 10px #66c0f4;
-        transition:0.3s;
-      "
-    >
-      Ver perfil na Steam
-    </a>
+    <div id="steam-card">
+      <img
+        id="steam-avatar"
+        src="https://cdn-icons-png.flaticon.com/512/565/565547.png"
+        alt="Avatar Steam"
+      />
+      <h2 id="steam-name">Carregando...</h2>
+      <p>
+        Nível: <strong id="steam-level">?</strong>
+      </p>
+      <a
+        id="steam-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Ver perfil na Steam</a
+      >
+    </div>
   </div>
-</div>
-
-<script>
-  const steamId = '76561198981104653';
-  const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37';
-
-  async function fetchSteamData() {
-    try {
-      const profileRes = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`);
-      const profileData = await profileRes.json();
-      const player = profileData.response.players[0];
-
-      document.getElementById('steam-avatar').src = player.avatarfull;
-      document.getElementById('steam-name').innerText = player.personaname;
-      document.getElementById('steam-link').href = player.profileurl;
-
-      const levelRes = await fetch(`https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId}`);
-      const levelData = await levelRes.json();
-      document.getElementById('steam-level').innerText = levelData.response.player_level;
-    } catch (error) {
-      console.error('Erro ao carregar dados da Steam:', error);
-      document.getElementById('steam-name').innerText = "Erro ao carregar";
-    }
-  }
-
-  window.addEventListener('load', fetchSteamData);
-</script>
-
 
   <script>
+    const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37'; // Sua API Key
+    const steamId = '76561198981104653';
+
+    // Proxy para evitar problemas de CORS
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+    async function fetchSteamData() {
+      try {
+        // Buscar dados do perfil
+        const summaryResponse = await fetch(
+          proxyUrl +
+            `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`
+        );
+        const summaryData = await summaryResponse.json();
+        const player = summaryData.response.players[0];
+
+        // Atualizar avatar, nome e link
+        document.getElementById('steam-avatar').src = player.avatarfull;
+        document.getElementById('steam-name').innerText = player.personaname;
+        document.getElementById('steam-link').href = player.profileurl;
+
+        // Buscar nível do jogador
+        const levelResponse = await fetch(
+          proxyUrl +
+            `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId}`
+        );
+        const levelData = await levelResponse.json();
+        const lvl = levelData.response.player_level;
+        document.getElementById('steam-level').innerText = lvl;
+      } catch (e) {
+        console.error('Erro ao buscar dados da Steam:', e);
+        document.getElementById('steam-name').innerText = 'Erro ao carregar perfil.';
+        document.getElementById('steam-avatar').src = 'https://cdn-icons-png.flaticon.com/512/565/565547.png';
+        document.getElementById('steam-level').innerText = '?';
+        document.getElementById('steam-link').href = '#';
+      }
+    }
+
+    window.addEventListener('load', fetchSteamData);
+
+    // Dropdown toggle
     function toggleDropdown() {
       const dropdown = document.getElementById('dropdown');
       dropdown.classList.toggle('show');
     }
 
+    // Fecha dropdown se clicar fora
     document.addEventListener('click', function (event) {
       const dropdown = document.getElementById('dropdown');
       const container = document.querySelector('.dropdown-container');
@@ -359,6 +333,7 @@
       }
     });
 
+    // Toggle navbar show/hide
     function toggleNavbar() {
       const navbar = document.getElementById('navbar');
       const btn = document.querySelector('.toggle-navbar-btn');
