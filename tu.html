@@ -243,7 +243,7 @@
         </div>
       </div>
       <a href="rede.html">Redes</a>
-      <a href="jojo.html">Chat (AO VIVO)</a>
+      <a href="jojo.html">Chat</a>
       <a href="jumpiscare.html">NÃO CLIQUE</a>
     </div>
   </div>
@@ -281,6 +281,11 @@
     }
   </script>
 
-  <audio src="calma.mp3" autoplay hidden></audio>
+  <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
+
+<script>
+  const audio = document.getElementById('meuAudio');
+  audio.volume = 0.45; // volume entre 0 e 1
+</script>
 </body>
 </html>
