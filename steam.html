@@ -26,6 +26,7 @@
       flex-direction: column;
     }
 
+    /* Navbar fixada no topo */
     .navbar {
       background: rgba(0, 100, 200, 0.7);
       padding: 15px 20px;
@@ -35,15 +36,18 @@
       flex-wrap: wrap;
       backdrop-filter: blur(5px);
       z-index: 2;
-      position: relative;
+      position: fixed; /* fixo no topo */
+      width: 100%;
+      top: 0;
+      left: 0;
       transition: top 0.4s ease, opacity 0.4s ease;
     }
 
+    /* Navbar escondida: sobe e some */
     .navbar.hidden {
-      top: -200px;
+      top: -80px; /* ajuste conforme altura da navbar */
       opacity: 0;
-      position: absolute;
-      width: 100%;
+      pointer-events: none;
     }
 
     .navbar h1 {
@@ -121,16 +125,15 @@
     .center-title {
       flex: 1;
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 30px 20px;
-      gap: 20px;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 100px 20px 30px; /* top padding para navbar fixa */
+      flex-wrap: wrap;
     }
 
-    /* Steam card style */
-    #steam-card {
+    /* Steam & YouTube card style */
+    .card {
       padding: 20px;
       border: 3px solid #66c0f4;
       border-radius: 15px;
@@ -141,22 +144,24 @@
       box-shadow: 0 0 15px #66c0f4;
       text-align: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-sizing: border-box;
     }
 
-    #steam-avatar {
+    .card img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
       border: 2px solid #66c0f4;
       margin-bottom: 10px;
+      object-fit: cover;
     }
 
-    #steam-name {
+    .card h2 {
       margin: 10px 0;
       color: #66c0f4;
     }
 
-    #steam-link {
+    .card a {
       display: inline-block;
       padding: 10px 20px;
       background-color: #66c0f4;
@@ -169,12 +174,13 @@
       cursor: pointer;
     }
 
-    #steam-link:hover {
+    .card a:hover {
       box-shadow: 0 0 20px #66c0f4;
     }
 
+    /* Botão toggle navbar */
     .toggle-navbar-btn {
-      display: none;
+      display: none; /* escondido no desktop */
       position: fixed;
       top: 10px;
       right: 10px;
@@ -194,6 +200,13 @@
     .toggle-navbar-btn:hover {
       background-color: rgba(255, 255, 255, 0.9);
       transform: rotate(90deg);
+    }
+
+    /* Mostrar o botão só no mobile */
+    @media (max-width: 768px) {
+      .toggle-navbar-btn {
+        display: block;
+      }
     }
 
     @media (max-width: 768px) {
@@ -219,10 +232,16 @@
         text-align: center;
         padding: 10px 0;
       }
+
+      .center-title {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 140px; /* mais espaço para navbar fixa + botão */
+      }
     }
 
     @media (max-width: 480px) {
-      #steam-card {
+      .card {
         width: 95%;
       }
     }
@@ -257,7 +276,8 @@
   </div>
 
   <div class="center-title">
-    <div id="steam-card">
+    <!-- Steam Card -->
+    <div id="steam-card" class="card">
       <img
         id="steam-avatar"
         src="https://cdn-icons-png.flaticon.com/512/565/565547.png"
@@ -275,10 +295,30 @@
         >Ver perfil na Steam</a
       >
     </div>
+
+    <!-- YouTube Card -->
+    <div id="youtube-card" class="card">
+      <img
+        id="youtube-avatar"
+        src="https://www.youtube.com/img/desktop/yt_1200.png"
+        alt="Avatar YouTube"
+      />
+      <h2 id="youtube-name">Carregando...</h2>
+      <p>
+        Inscritos: <strong id="youtube-subs">...</strong>
+      </p>
+      <a
+        id="youtube-link"
+        href="https://www.youtube.com/@marcoss0502"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Ver canal no YouTube</a
+      >
+    </div>
   </div>
 
   <script>
-    const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37'; // Sua API Key
+    const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37'; // Sua API Key Steam
     const steamId = '76561198981104653';
 
     // Proxy para evitar problemas de CORS
@@ -286,7 +326,7 @@
 
     async function fetchSteamData() {
       try {
-        // Buscar dados do perfil
+        // Buscar dados do perfil Steam
         const summaryResponse = await fetch(
           proxyUrl +
             `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`
@@ -294,12 +334,12 @@
         const summaryData = await summaryResponse.json();
         const player = summaryData.response.players[0];
 
-        // Atualizar avatar, nome e link
+        // Atualizar avatar, nome e link Steam
         document.getElementById('steam-avatar').src = player.avatarfull;
         document.getElementById('steam-name').innerText = player.personaname;
         document.getElementById('steam-link').href = player.profileurl;
 
-        // Buscar nível do jogador
+        // Buscar nível do jogador Steam
         const levelResponse = await fetch(
           proxyUrl +
             `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId}`
@@ -341,6 +381,47 @@
       navbar.classList.toggle('hidden');
       btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
     }
+  </script>
+
+  <!-- YouTube API -->
+  <script>
+    const YT_API_KEY = 'AIzaSyBszHYtvy6h-GRq02svTl9BFMxarm7bhVc';
+    const YT_HANDLE = 'marcoss0502';
+
+    async function buscarChannelIdPeloNomeYT(handle) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${handle}&key=${YT_API_KEY}`);
+      const data = await res.json();
+      const canal = data.items?.[0];
+      return canal ? canal.snippet.channelId : null;
+    }
+
+    async function buscarDadosDoCanalYT(channelId) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${YT_API_KEY}`);
+      const data = await res.json();
+      return data.items?.[0] || null;
+    }
+
+    async function atualizarCanalYT() {
+      try {
+        const canalId = await buscarChannelIdPeloNomeYT(YT_HANDLE);
+        if (!canalId) {
+          document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
+          return;
+        }
+
+        const canal = await buscarDadosDoCanalYT(canalId);
+        document.getElementById('youtube-name').innerText = canal.snippet.title;
+        document.getElementById('youtube-avatar').src = canal.snippet.thumbnails.high.url;
+        document.getElementById('youtube-subs').innerText = Number(canal.statistics.subscriberCount).toLocaleString();
+        document.getElementById('youtube-link').href = `https://www.youtube.com/channel/${canalId}`;
+      } catch (err) {
+        console.error('Erro ao carregar YouTube:', err);
+        document.getElementById('youtube-name').innerText = 'Erro no YouTube';
+      }
+    }
+
+    window.addEventListener('load', atualizarCanalYT);
+    setInterval(atualizarCanalYT, 10000); // Atualiza a cada 10s
   </script>
 </body>
 </html>
