@@ -219,17 +219,25 @@
 
     <div class="center-title">
         <div id="steam-card" class="card">
-            <img id="steam-avatar" src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Avatar Steam" />
-            <h2 id="steam-name">Carregando...</h2>
-            <p>Nível: <strong id="steam-level">?</strong></p>
-            <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer">Ver perfil na Steam</a>
+            <img id="steam-avatar" src="erro.gif" alt="Erro" />
+            <h2 id="steam-name">Marcoss0502</h2>
+     <br>
+            <a id="steam-link" href="https://steamcommunity.com/profiles/76561198981104653/" target="_blank" rel="noopener noreferrer">Ver perfil na Steam</a>
         </div>
 
         <div id="youtube-card" class="card">
-            <img id="youtube-avatar" src="https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png" alt="Avatar YouTube" />
-            <h2 id="youtube-name">Carregando...</h2>
-            <p>Inscritos: <strong id="youtube-subs">...</strong></p>
-            <a id="youtube-link" href="#" target="_blank" rel="noopener noreferrer">Ver canal no YouTube</a>
+            <img id="youtube-avatar" src="erro.png" alt="Avatar YouTube" />
+            <h2 id="youtube-name">Marcoss0502</h2>
+            <p>Inscritos: <strong id="youtube-subs">conectando...</strong></p>
+            <a id="youtube-link" href="https://www.youtube.com/@Marcoss0502" target="_blank" rel="noopener noreferrer">Ver canal no YouTube</a>
+        </div>
+
+        <div class="center-title">
+        <div id="steam-card" class="card">
+            <img id="steam-avatar" src="x.jpg" alt="Erro" />
+            <h2 id="steam-name">Marcoss0502</h2>
+            <br>
+            <a id="steam-link" href="https://x.com/Marcoss0502" target="_blank" rel="noopener noreferrer">Ver perfil no Twitter</a>
         </div>
     </div>
 
@@ -253,46 +261,6 @@
             const btn = document.querySelector('.toggle-navbar-btn');
             navbar.classList.toggle('hidden');
             btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
-        }
-
-        // --- Steam API ---
-        const steamApiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37'; // <--- SUBSTITUA PELA SUA NOVA CHAVE DA STEAM
-        const steamId = '76561198981104653';
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; 
-
-        async function fetchSteamData() {
-            try {
-                const summaryResponse = await fetch(
-                    proxyUrl + `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`
-                );
-                if (!summaryResponse.ok) {
-                    const errorText = await summaryResponse.text();
-                    throw new Error(`Erro na API Steam (Summary): ${summaryResponse.status} - ${errorText.substring(0, 100)}...`);
-                }
-                const summaryData = await summaryResponse.json();
-                const player = summaryData.response.players[0];
-
-                document.getElementById('steam-avatar').src = player.avatarfull;
-                document.getElementById('steam-name').innerText = player.personaname;
-                document.getElementById('steam-link').href = player.profileurl;
-
-                const levelResponse = await fetch(
-                    proxyUrl + `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${steamApiKey}&steamid=${steamId}`
-                );
-                if (!levelResponse.ok) {
-                    const errorText = await levelResponse.text();
-                    throw new Error(`Erro na API Steam (Level): ${levelResponse.status} - ${errorText.substring(0, 100)}...`);
-                }
-                const levelData = await levelResponse.json();
-                const lvl = levelData.response.player_level;
-                document.getElementById('steam-level').innerText = lvl;
-            } catch (e) {
-                console.error('Erro ao buscar dados da Steam:', e);
-                document.getElementById('steam-name').innerText = 'Erro ao carregar perfil.';
-                document.getElementById('steam-avatar').src = 'https://cdn-icons-png.flaticon.com/512/565/565547.png';
-                document.getElementById('steam-level').innerText = '?';
-                document.getElementById('steam-link').href = '#';
-            }
         }
 
         // --- YouTube API ---
@@ -322,30 +290,30 @@
                     document.getElementById('youtube-name').innerText = channel.snippet.title;
                     document.getElementById('youtube-avatar').src = channel.snippet.thumbnails.high.url;
                     document.getElementById('youtube-subs').innerText = Number(channel.statistics.subscriberCount).toLocaleString('pt-BR');
-                    document.getElementById('youtube-link').href = `https://www.youtube.com/channel/${youtubeChannelId}`;
+                    document.getElementById('youtube-link').href = `https://www.youtube.com/@Marcoss0502`; // Mantido o link que você tinha
                 } else {
                     document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
-                    document.getElementById('youtube-avatar').src = 'https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png';
-                    document.getElementById('youtube-subs').innerText = '...';
-                    document.getElementById('youtube-link').href = '#';
+                    document.getElementById('youtube-avatar').src = 'erro.png';
+                    document.getElementById('youtube-subs').innerText = 'erro ao conectar';
+                    document.getElementById('youtube-link').href = 'https://www.youtube.com/@Marcoss0502'; // Mantido o link que você tinha
                 }
             } catch (error) {
                 console.error('Erro ao buscar dados do YouTube (catch final):', error);
-                document.getElementById('youtube-name').innerText = 'Erro no YouTube';
-                document.getElementById('youtube-avatar').src = 'https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png';
-                document.getElementById('youtube-subs').innerText = '...';
-                document.getElementById('youtube-link').href = '#';
+                document.getElementById('youtube-name').innerText = 'Marcoss0502';
+                document.getElementById('youtube-avatar').src = 'erro.png';
+                document.getElementById('youtube-subs').innerText = 'erro ao conectar';
+                document.getElementById('youtube-link').href = ''; // Link vazio ou para uma página de erro
             }
         }
 
         // Carregar dados ao carregar a página
         window.addEventListener('load', () => {
-            fetchSteamData();
+            // A função fetchSteamData foi removida, não há necessidade de chamá-la.
             fetchYouTubeData();
         });
         // Desativado por enquanto para evitar sobrecarga durante o debug:
         // setInterval(fetchYouTubeData, 10000);
-        // setInterval(fetchSteamData, 10000); 
+        // setInterval(fetchSteamData, 10000); // Esta linha foi removida, se estiver em cache pode precisar limpar.
     </script>
 </body>
 </html>
