@@ -6,13 +6,7 @@
   <title>Redes</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       background-image: url('fruta2.jpg');
@@ -25,7 +19,6 @@
       display: flex;
       flex-direction: column;
     }
-
     .navbar {
       background: rgba(0, 100, 200, 0.7);
       padding: 15px 20px;
@@ -35,30 +28,24 @@
       flex-wrap: wrap;
       backdrop-filter: blur(5px);
       z-index: 2;
-      position: relative;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
       transition: top 0.4s ease, opacity 0.4s ease;
     }
-
-    .navbar.hidden {
-      top: -200px;
-      opacity: 0;
-      position: absolute;
-      width: 100%;
-    }
-
+    .navbar.hidden { top: -80px; opacity: 0; pointer-events: none; }
     .navbar h1 {
       font-size: 24px;
       text-shadow: 1px 1px 3px #000;
       flex: 1;
     }
-
     .nav-links {
       display: flex;
       align-items: center;
       gap: 15px;
       flex-wrap: wrap;
     }
-
     .nav-links a {
       text-decoration: none;
       color: white;
@@ -68,21 +55,17 @@
       transition: all 0.3s ease;
       cursor: pointer;
     }
-
     .nav-links a:hover {
       background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
       color: #ffcc00;
     }
-
     .dropdown-container {
       position: relative;
     }
-
     .dropdown-container > a {
       display: inline-block;
     }
-
     .dropdown {
       position: absolute;
       top: 100%;
@@ -100,12 +83,7 @@
       min-width: 150px;
       z-index: 5;
     }
-
-    .dropdown.show {
-      max-height: 300px;
-      opacity: 1;
-    }
-
+    .dropdown.show { max-height: 300px; opacity: 1; }
     .dropdown a {
       color: white;
       padding: 8px 16px;
@@ -113,54 +91,70 @@
       text-align: center;
       transition: background-color 0.3s;
     }
-
     .dropdown a:hover {
       background-color: rgba(255, 255, 255, 0.2);
     }
-
+    /* Novo: Título "REDES" centralizado abaixo da navbar */
+    .page-title {
+      margin-top: 80px; /* espaço para navbar fixa */
+      text-align: center;
+      font-size: 48px;
+      font-weight: 900;
+      color: #66c0f4;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      font-family: 'Comic Neue', cursive;
+      padding-bottom: 30px;
+      user-select: none;
+    }
     .center-title {
       flex: 1;
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 0 20px 30px;
+      flex-wrap: wrap;
+    }
+    .card {
+      padding: 20px;
+      border: 3px solid #66c0f4;
+      border-radius: 15px;
+      background: linear-gradient(to bottom right, #1b2838, #171a21);
+      color: #c7d5e0;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px #66c0f4;
       text-align: center;
-      padding: 30px 20px;
-      gap: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-sizing: border-box;
     }
-
-    .floating-title {
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-      font-size: 50px;
-      color: #ffffff;
-      text-shadow: 2px 2px 5px #000;
-      animation: float 3s ease-in-out infinite;
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #66c0f4;
+      margin-bottom: 10px;
+      object-fit: cover;
     }
-
-    .links-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
+    .card h2 {
+      margin: 10px 0;
+      color: #66c0f4;
     }
-
-    .links-container a {
-      text-decoration: none;
-      color: #ff0004;
+    .card a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #66c0f4;
+      color: #1b2838;
       font-weight: bold;
-      font-size: 24px;
-      transition: transform 0.4s ease;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 0 10px #66c0f4;
+      transition: 0.3s;
+      cursor: pointer;
     }
-
-    .links-container a:hover {
-      transform: rotate(360deg);
+    .card a:hover {
+      box-shadow: 0 0 20px #66c0f4;
     }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
     .toggle-navbar-btn {
       display: none;
       position: fixed;
@@ -178,88 +172,30 @@
       z-index: 5;
       transition: background-color 0.3s, transform 0.3s;
     }
-
     .toggle-navbar-btn:hover {
       background-color: rgba(255, 255, 255, 0.9);
       transform: rotate(90deg);
     }
-
     @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .navbar h1 {
-        font-size: 22px;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-      }
-
-      .nav-links a {
-        width: 100%;
-        text-align: center;
-        padding: 10px 0;
-      }
-
-      .floating-title {
-        font-size: 38px;
-      }
-
-      .links-container a {
-        font-size: 20px;
-      }
-
-      .toggle-navbar-btn {
-        display: block;
-      }
+      .toggle-navbar-btn { display: block; }
+      .navbar { flex-direction: column; align-items: center; }
+      .navbar h1 { font-size: 22px; text-align: center; margin-bottom: 10px; }
+      .nav-links { flex-direction: column; width: 100%; gap: 10px; }
+      .nav-links a { width: 100%; text-align: center; padding: 10px 0; }
+      .center-title { flex-direction: column; align-items: center; padding-top: 0; }
     }
-
     @media (max-width: 480px) {
-      .floating-title {
-        font-size: 30px;
-      }
-
-      .links-container a {
-        font-size: 18px;
-      }
-
-      .nav-links a {
-        font-size: 16px;
-      }
-
-      .dropdown {
-        min-width: 100px;
-      }
-    }
-
-    @keyframes rainbowGlow {
-      0% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
-      14% { color: orange; text-shadow: 0 0 5px orange, 0 0 10px orange; }
-      28% { color: yellow; text-shadow: 0 0 5px yellow, 0 0 10px yellow; }
-      42% { color: green; text-shadow: 0 0 5px green, 0 0 10px green; }
-      57% { color: cyan; text-shadow: 0 0 5px cyan, 0 0 10px cyan; }
-      71% { color: blue; text-shadow: 0 0 5px blue, 0 0 10px blue; }
-      85% { color: violet; text-shadow: 0 0 5px violet, 0 0 10px violet; }
-      100% { color: red; text-shadow: 0 0 5px red, 0 0 10px red; }
+      .card { width: 95%; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Música de fundo -->
- <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
-
-<script>
-  const audio = document.getElementById('meuAudio');
-  audio.volume = 0.45; // volume entre 0 e 1
-</script>
+  <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
+  <script>
+    const audio = document.getElementById('meuAudio');
+    audio.volume = 0.45;
+  </script>
 
   <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
@@ -279,15 +215,59 @@
     </div>
   </div>
 
+  <!-- Título "REDES" centralizado -->
+  <div class="page-title">REDES</div>
+
   <div class="center-title">
-    <div class="floating-title" style="animation: rainbowGlow 3s infinite; font-weight: bold;">REDES</div>
-    <div class="links-container">
-      <a href="https://youtube.com/@marcoss0502?si=SPHmZfZS2OQ-n7bp" target="_blank">Canal Marcoss0502</a>
-      <a href="https://youtube.com/@marcoss0502_2?si=5jENFJBAcClnMcfD" target="_blank">Canal Marcoss0502 2</a>
+    <div id="steam-card" class="card">
+      <img id="steam-avatar" src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Avatar Steam" />
+      <h2 id="steam-name">Carregando...</h2>
+      <p>Nível: <strong id="steam-level">?</strong></p>
+      <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer">Ver perfil na Steam</a>
+    </div>
+
+    <div id="youtube-card" class="card">
+      <img id="youtube-avatar" src="https://www.youtube.com/img/desktop/yt_1200.png" alt="Avatar YouTube" />
+      <h2 id="youtube-name">Carregando...</h2>
+      <p>Inscritos: <strong id="youtube-subs">...</strong></p>
+      <a id="youtube-link" href="https://www.youtube.com/@marcoss0502" target="_blank" rel="noopener noreferrer">Ver canal no YouTube</a>
     </div>
   </div>
 
   <script>
+    const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37';
+    const steamId = '76561198981104653';
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+    async function fetchSteamData() {
+      try {
+        const summaryResponse = await fetch(
+          proxyUrl + `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`
+        );
+        const summaryData = await summaryResponse.json();
+        const player = summaryData.response.players[0];
+
+        document.getElementById('steam-avatar').src = player.avatarfull;
+        document.getElementById('steam-name').innerText = player.personaname;
+        document.getElementById('steam-link').href = player.profileurl;
+
+        const levelResponse = await fetch(
+          proxyUrl + `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId}`
+        );
+        const levelData = await levelResponse.json();
+        const lvl = levelData.response.player_level;
+        document.getElementById('steam-level').innerText = lvl;
+      } catch (e) {
+        console.error('Erro ao buscar dados da Steam:', e);
+        document.getElementById('steam-name').innerText = 'Erro ao carregar perfil.';
+        document.getElementById('steam-avatar').src = 'https://cdn-icons-png.flaticon.com/512/565/565547.png';
+        document.getElementById('steam-level').innerText = '?';
+        document.getElementById('steam-link').href = '#';
+      }
+    }
+
+    window.addEventListener('load', fetchSteamData);
+
     function toggleDropdown() {
       const dropdown = document.getElementById('dropdown');
       dropdown.classList.toggle('show');
@@ -304,10 +284,50 @@
     function toggleNavbar() {
       const navbar = document.getElementById('navbar');
       const btn = document.querySelector('.toggle-navbar-btn');
-
       navbar.classList.toggle('hidden');
       btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
     }
+  </script>
+
+  <!-- YouTube API -->
+  <script>
+    const YT_API_KEY = 'AIzaSyC8I8nK2tJulG6uHgdQLHonb3-H9QGGKMA';
+    const YT_HANDLE = 'marcoss0502';
+
+    async function buscarChannelIdPeloNomeYT(handle) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${handle}&key=${YT_API_KEY}`);
+      const data = await res.json();
+      const canal = data.items?.[0];
+      return canal ? canal.snippet.channelId : null;
+    }
+
+    async function buscarDadosDoCanalYT(channelId) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${YT_API_KEY}`);
+      const data = await res.json();
+      return data.items?.[0] || null;
+    }
+
+    async function atualizarCanalYT() {
+      try {
+        const canalId = await buscarChannelIdPeloNomeYT(YT_HANDLE);
+        if (!canalId) {
+          document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
+          return;
+        }
+
+        const canal = await buscarDadosDoCanalYT(canalId);
+        document.getElementById('youtube-name').innerText = canal.snippet.title;
+        document.getElementById('youtube-avatar').src = canal.snippet.thumbnails.high.url;
+        document.getElementById('youtube-subs').innerText = Number(canal.statistics.subscriberCount).toLocaleString();
+        document.getElementById('youtube-link').href = `https://www.youtube.com/channel/${canalId}`;
+      } catch (err) {
+        console.error('Erro ao carregar YouTube:', err);
+        document.getElementById('youtube-name').innerText = 'Erro no YouTube';
+      }
+    }
+
+    window.addEventListener('load', atualizarCanalYT);
+    setInterval(atualizarCanalYT, 10000);
   </script>
 </body>
 </html>
