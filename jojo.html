@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chat ao Vivo</title>
-
+  <title>Zapozapo</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
@@ -15,7 +14,7 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Comic Neue', sans-serif;
       background-image: url('fruta3.png');
       background-size: cover;
       background-position: center;
@@ -25,10 +24,11 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-bottom: 40px;
+      padding: 20px;
     }
 
-    /* Navbar Styles */
+    /* === Barra azul fixa no topo com toggle e dropdown do primeiro código === */
+
     .navbar {
       background: rgba(0, 100, 200, 0.7);
       padding: 15px 20px;
@@ -37,8 +37,12 @@
       justify-content: space-between;
       flex-wrap: wrap;
       backdrop-filter: blur(5px);
-      z-index: 2;
-      position: relative;
+      z-index: 2000;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      user-select: none;
       transition: top 0.4s ease, opacity 0.4s ease;
     }
 
@@ -53,7 +57,6 @@
       font-size: 24px;
       text-shadow: 1px 1px 3px #000;
       flex: 1;
-      user-select: none;
     }
 
     .nav-links {
@@ -80,7 +83,6 @@
       color: #ffcc00;
     }
 
-    /* Dropdown Styles */
     .dropdown-container {
       position: relative;
     }
@@ -88,6 +90,7 @@
     .dropdown-container > a {
       display: inline-block;
       user-select: none;
+      cursor: pointer;
     }
 
     .dropdown {
@@ -105,7 +108,7 @@
       overflow: hidden;
       transition: all 0.4s ease;
       min-width: 150px;
-      z-index: 5;
+      z-index: 3000; /* maior que modal */
     }
 
     .dropdown.show {
@@ -126,7 +129,7 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* Toggle Navbar Button */
+    /* Botão toggle para esconder/exibir navbar */
     .toggle-navbar-btn {
       display: none;
       position: fixed;
@@ -141,7 +144,7 @@
       font-size: 24px;
       font-weight: bold;
       cursor: pointer;
-      z-index: 10;
+      z-index: 4000;
       transition: background-color 0.3s, transform 0.3s;
       user-select: none;
     }
@@ -151,92 +154,6 @@
       transform: rotate(90deg);
     }
 
-    /* Chat Container */
-    #chat-container {
-      max-width: 600px;
-      background-color: rgba(0, 0, 0, 0.6);
-      margin: 30px auto;
-      border-radius: 10px;
-      padding: 20px;
-      color: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-      flex: 1 0 auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #chat-container h2 {
-      margin-bottom: 15px;
-      user-select: none;
-    }
-
-    #chat {
-      border: 1px solid #ccc;
-      height: 300px;
-      overflow-y: auto;
-      padding: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 15px;
-      flex-grow: 1;
-    }
-
-    .message {
-      margin-bottom: 10px;
-    }
-
-    /* Inputs and button */
-    #inputs-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-      user-select: none;
-    }
-
-    input#nameInput {
-      flex: 1 1 45%;
-      min-width: 140px;
-    }
-
-    input#messageInput {
-      flex: 2 1 50%;
-      min-width: 180px;
-    }
-
-    button {
-      background-color: rgba(0, 100, 200, 0.8);
-      color: white;
-      cursor: pointer;
-      flex: 1 1 100%;
-      transition: background-color 0.3s;
-      min-width: 100px;
-    }
-
-    button:hover {
-      background-color: rgba(0, 100, 200, 1);
-    }
-
-    /* Scrollbar styling for chat */
-    #chat::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #chat::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 100, 200, 0.7);
-      border-radius: 4px;
-    }
-
-    /* Responsive for tablets and phones */
     @media (max-width: 768px) {
       .navbar {
         flex-direction: column;
@@ -261,188 +178,322 @@
         padding: 10px 0;
       }
 
-      .dropdown {
-        left: 0;
-        transform: none;
-        min-width: 100%;
-        border-radius: 0 0 8px 8px;
-      }
-
       .toggle-navbar-btn {
         display: block;
-      }
-
-      #inputs-row {
-        flex-direction: column;
-      }
-
-      input#nameInput,
-      input#messageInput,
-      button {
-        flex: 1 1 100%;
-        min-width: auto;
       }
     }
 
     @media (max-width: 480px) {
-      .navbar h1 {
-        font-size: 20px;
-      }
-
       .nav-links a {
         font-size: 16px;
       }
 
-      #chat {
-        height: 250px;
-        font-size: 14px;
+      .dropdown {
+        min-width: 100px;
       }
+    }
 
-      button {
-        font-size: 16px;
-        padding: 12px;
-      }
+    /* === Modal grupo === */
+    #groupModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+    }
+
+    #groupModal .modal-content {
+      background: rgba(0, 100, 200, 0.8);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      user-select: none;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    #groupModal input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    #groupModal button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #groupModal button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #groupModal #groupError {
+      margin-top: 10px;
+      color: #ffcccb;
+    }
+
+    /* === Chat container === */
+    #chat-container {
+      max-width: 600px;
+      margin: 100px auto 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    #chat-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #inputs-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    #inputs-row input, #inputs-row button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    #nameInput {
+      flex: 1 1 30%;
+    }
+
+    #messageInput {
+      flex: 1 1 50%;
+    }
+
+    #inputs-row button {
+      background-color: rgba(0, 100, 200, 0.8);
+      color: white;
+      flex: 1 1 15%;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #inputs-row button:hover {
+      background-color: rgba(0, 100, 200, 1);
+    }
+
+    #chat {
+      max-height: 300px;
+      overflow-y: auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    #chat::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chat::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 100, 200, 0.7);
+      border-radius: 4px;
     }
   </style>
 
-  <!-- Firebase scripts -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
-  <!-- Navbar toggle button -->
   <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
-  <!-- Navbar -->
   <div class="navbar" id="navbar">
     <h1>SITE ALEATÓRIO DO MARCOS</h1>
     <div class="nav-links">
       <a href="tu.html">Home</a>
       <div class="dropdown-container">
-        <a onclick="toggleDropdown()" style="cursor:pointer;">Meus Jogos </a>
+        <a onclick="toggleDropdown()">Meus Jogos</a>
         <div id="dropdown" class="dropdown">
-          <a href="tu.html">Nehum jogo :/</a>
+          <a href="tu.html">Nenhum jogo :(</a>
         </div>
       </div>
       <a href="rede.html">Redes</a>
-      <a href="jojo.html">Chat (AO VIVO)</a>
+      <a href="jojo.html">Chat</a>
       <a href="jumpiscare.html">NÃO CLIQUE</a>
     </div>
   </div>
 
-  <!-- Chat container -->
-  <div id="chat-container">
-    <h2>💬 Chat ao Vivo</h2>
+  <div id="groupModal">
+    <div class="modal-content">
+      <h2>Escolha tua opção</h2>
+      <input id="groupCode" placeholder="Código do grupo" />
+      <br />
+      <button onclick="joinGroup()">Entrar</button>
+      <button onclick="createGroup()" style="background-color:#4CAF50;color:white;">Criar Grupo</button>
+      <p id="groupError"></p>
+    </div>
+  </div>
 
+  <div id="chat-container" style="display:none;">
+    <h2>💬 Chat</h2>
     <div id="inputs-row">
       <input id="nameInput" placeholder="Seu nome" autocomplete="off" />
       <input id="messageInput" placeholder="Digite sua mensagem" autocomplete="off" />
       <button onclick="sendMessage()">Enviar</button>
     </div>
-
     <div id="chat"></div>
   </div>
 
   <script>
-    // Toggle dropdown menu
-    function toggleDropdown() {
-      const dropdown = document.getElementById('dropdown');
-      dropdown.classList.toggle('show');
-    }
-
-    // Close dropdown if click outside
-    window.addEventListener('click', function (e) {
-      const dropdown = document.getElementById('dropdown');
-      const dropdownContainer = document.querySelector('.dropdown-container');
-      if (!dropdownContainer.contains(e.target)) {
-        dropdown.classList.remove('show');
-      }
-    });
-
-    // Toggle Navbar visibility
-    function toggleNavbar() {
-      const navbar = document.getElementById('navbar');
-      const toggleBtn = document.querySelector('.toggle-navbar-btn');
-      if (navbar.classList.contains('hidden')) {
-        navbar.classList.remove('hidden');
-        toggleBtn.textContent = '▲';
-      } else {
-        navbar.classList.add('hidden');
-        toggleBtn.textContent = '▼';
-      }
-    }
-
-    // Firebase config (atualize com seu próprio config)
+    // Firebase config
     const firebaseConfig = {
-  apiKey: "AIzaSyDdnY9299WMH7VsY_9Kgg0mYh4PWe2yJeE",
-  authDomain: "sitechat-89fca.firebaseapp.com",
-  databaseURL: "https://sitechat-89fca-default-rtdb.firebaseio.com",
-  projectId: "sitechat-89fca",
-  storageBucket: "sitechat-89fca.firebasestorage.app",
-  messagingSenderId: "377335909727",
-  appId: "1:377335909727:web:a27d33c82664594444baea",
-  measurementId: "G-3LWYFS8P56"
-};
+      apiKey: "AIzaSyDdnY9299WMH7VsY_9Kgg0mYh4PWe2yJeE",
+      authDomain: "sitechat-89fca.firebaseapp.com",
+      databaseURL: "https://sitechat-89fca-default-rtdb.firebaseio.com",
+      projectId: "sitechat-89fca",
+      storageBucket: "sitechat-89fca.appspot.com",
+      messagingSenderId: "377335909727",
+      appId: "1:377335909727:web:a27d33c82664594444baea",
+      measurementId: "G-3LWYFS8P56"
+    };
 
-
-    // Inicializar Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    const chatRef = database.ref('messages');
+    let currentGroup = null;
+    let chatRef = null;
 
-    // Enviar mensagem para Firebase
-    function sendMessage() {
-      const nameInput = document.getElementById('nameInput');
-      const messageInput = document.getElementById('messageInput');
-      const name = nameInput.value.trim();
-      const message = messageInput.value.trim();
-
-      if (!name || !message) {
-        alert('Por favor, preencha seu nome e mensagem.');
+    // Entrar no grupo
+    function joinGroup() {
+      const code = document.getElementById('groupCode').value.trim();
+      if (!code) {
+        showError('Digite um código de grupo.');
         return;
       }
-
-      const newMessage = {
-        name,
-        message,
-        timestamp: Date.now()
-      };
-
-      chatRef.push(newMessage);
-      messageInput.value = '';
-      messageInput.focus();
+      database.ref('groups/' + code).once('value').then(snapshot => {
+        if (snapshot.exists()) {
+          currentGroup = code;
+          startChat();
+        } else {
+          showError('Grupo não encontrado.');
+        }
+      });
     }
 
-    // Exibir mensagens do Firebase em tempo real
-    const chatDiv = document.getElementById('chat');
-    chatRef.limitToLast(50).on('value', snapshot => {
-      chatDiv.innerHTML = '';
-      const data = snapshot.val();
-      if (!data) {
-        chatDiv.innerHTML = '<p style="text-align:center;opacity:0.6;">Sem mensagens ainda.</p>';
+    // Criar grupo
+    function createGroup() {
+      const code = document.getElementById('groupCode').value.trim();
+      if (!code) {
+        showError('Digite um código para criar o grupo.');
         return;
       }
-      const messages = Object.values(data);
-      messages.sort((a, b) => a.timestamp - b.timestamp);
-
-      messages.forEach(({ name, message }) => {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.innerHTML = `<strong>${escapeHtml(name)}:</strong> ${escapeHtml(message)}`;
-        chatDiv.appendChild(messageDiv);
+      database.ref('groups/' + code).set({
+        createdAt: Date.now(),
+        code
+      }).then(() => {
+        currentGroup = code;
+        alert('Grupo criado! Código: ' + code);
+        startChat();
       });
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    });
+    }
 
-    // Função para escapar HTML e evitar XSS
+    function showError(msg) {
+      document.getElementById('groupError').innerText = msg;
+    }
+
+    // Iniciar chat mostrando chat e escondendo modal
+    function startChat() {
+      document.getElementById('groupModal').style.display = 'none';
+      document.getElementById('chat-container').style.display = 'block';
+
+      chatRef = database.ref('messages/' + currentGroup);
+      chatRef.limitToLast(50).on('value', snapshot => {
+        const chatDiv = document.getElementById('chat');
+        chatDiv.innerHTML = '';
+        const data = snapshot.val();
+        if (!data) {
+          chatDiv.innerHTML = '<p style="text-align:center;opacity:0.6;">Sem mensagens ainda.</p>';
+          return;
+        }
+        const messages = Object.values(data);
+        messages.sort((a, b) => a.timestamp - b.timestamp);
+        messages.forEach(({ name, message }) => {
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.innerHTML = `<strong>${escapeHtml(name)}:</strong> ${escapeHtml(message)}`;
+          chatDiv.appendChild(div);
+        });
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+      });
+    }
+
+    // Enviar mensagem
+    function sendMessage() {
+      const name = document.getElementById('nameInput').value.trim();
+      const message = document.getElementById('messageInput').value.trim();
+      if (!name || !message || !currentGroup) return;
+
+      chatRef.push({ name, message, timestamp: Date.now() });
+      document.getElementById('messageInput').value = '';
+      document.getElementById('messageInput').focus();
+    }
+
+    // Escapar html para evitar XSS
     function escapeHtml(text) {
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     }
+
+    // Toggle dropdown no clique (seta + texto)
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    // Fecha dropdown se clicar fora
+    document.addEventListener('click', function (event) {
+      const dropdown = document.getElementById('dropdown');
+      const container = document.querySelector('.dropdown-container');
+      if (!container.contains(event.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+
+    // Toggle navbar visibilidade botão
+    function toggleNavbar() {
+      const navbar = document.getElementById('navbar');
+      const btn = document.querySelector('.toggle-navbar-btn');
+      navbar.classList.toggle('hidden');
+      btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
+    }
   </script>
-  <audio src="chatando.mp3" autoplay hidden></audio>
+<audio id="meuAudio" src="chatando.mp3" autoplay hidden></audio>
+
+<script>
+  const audio = document.getElementById('meuAudio');
+  audio.volume = 0.35; // volume entre 0 e 1
+</script>
+
 </body>
 </html>
