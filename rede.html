@@ -1,333 +1,351 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redes</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: Arial, sans-serif;
-      background-image: url('fruta2.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .navbar {
-      background: rgba(0, 100, 200, 0.7);
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      backdrop-filter: blur(5px);
-      z-index: 2;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      transition: top 0.4s ease, opacity 0.4s ease;
-    }
-    .navbar.hidden { top: -80px; opacity: 0; pointer-events: none; }
-    .navbar h1 {
-      font-size: 24px;
-      text-shadow: 1px 1px 3px #000;
-      flex: 1;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .nav-links a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-      color: #ffcc00;
-    }
-    .dropdown-container {
-      position: relative;
-    }
-    .dropdown-container > a {
-      display: inline-block;
-    }
-    .dropdown {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0, 100, 200, 0.9);
-      border-radius: 8px;
-      padding: 10px 0;
-      display: flex;
-      flex-direction: column;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      min-width: 150px;
-      z-index: 5;
-    }
-    .dropdown.show { max-height: 300px; opacity: 1; }
-    .dropdown a {
-      color: white;
-      padding: 8px 16px;
-      text-decoration: none;
-      text-align: center;
-      transition: background-color 0.3s;
-    }
-    .dropdown a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-    /* Novo: Título "REDES" centralizado abaixo da navbar */
-    .page-title {
-      margin-top: 80px; /* espaço para navbar fixa */
-      text-align: center;
-      font-size: 48px;
-      font-weight: 900;
-      color: #66c0f4;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-      font-family: 'Comic Neue', cursive;
-      padding-bottom: 30px;
-      user-select: none;
-    }
-    .center-title {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 40px;
-      padding: 0 20px 30px;
-      flex-wrap: wrap;
-    }
-    .card {
-      padding: 20px;
-      border: 3px solid #66c0f4;
-      border-radius: 15px;
-      background: linear-gradient(to bottom right, #1b2838, #171a21);
-      color: #c7d5e0;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 15px #66c0f4;
-      text-align: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      box-sizing: border-box;
-    }
-    .card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 2px solid #66c0f4;
-      margin-bottom: 10px;
-      object-fit: cover;
-    }
-    .card h2 {
-      margin: 10px 0;
-      color: #66c0f4;
-    }
-    .card a {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #66c0f4;
-      color: #1b2838;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 0 0 10px #66c0f4;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .card a:hover {
-      box-shadow: 0 0 20px #66c0f4;
-    }
-    .toggle-navbar-btn {
-      display: none;
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.7);
-      color: #000;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 5;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-    .toggle-navbar-btn:hover {
-      background-color: rgba(255, 255, 255, 0.9);
-      transform: rotate(90deg);
-    }
-    @media (max-width: 768px) {
-      .toggle-navbar-btn { display: block; }
-      .navbar { flex-direction: column; align-items: center; }
-      .navbar h1 { font-size: 22px; text-align: center; margin-bottom: 10px; }
-      .nav-links { flex-direction: column; width: 100%; gap: 10px; }
-      .nav-links a { width: 100%; text-align: center; padding: 10px 0; }
-      .center-title { flex-direction: column; align-items: center; padding-top: 0; }
-    }
-    @media (max-width: 480px) {
-      .card { width: 95%; }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('fruta2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background: rgba(0, 100, 200, 0.7);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            backdrop-filter: blur(5px);
+            z-index: 2;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transition: top 0.4s ease, opacity 0.4s ease;
+        }
+        .navbar.hidden { top: -80px; opacity: 0; pointer-events: none; }
+        .navbar h1 {
+            font-size: 24px;
+            text-shadow: 1px 1px 3px #000;
+            flex: 1;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            color: #ffcc00;
+        }
+        .dropdown-container {
+            position: relative;
+        }
+        .dropdown-container > a {
+            display: inline-block;
+        }
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 100, 200, 0.9);
+            border-radius: 8px;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            min-width: 150px;
+            z-index: 5;
+        }
+        .dropdown.show { max-height: 300px; opacity: 1; }
+        .dropdown a {
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* Novo: Título "REDES" centralizado abaixo da navbar */
+        .page-title {
+            margin-top: 80px; /* espaço para navbar fixa */
+            text-align: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: #66c0f4;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+            font-family: 'Comic Neue', cursive;
+            padding-bottom: 30px;
+            user-select: none;
+        }
+        .center-title {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            padding: 0 20px 30px;
+            flex-wrap: wrap;
+        }
+        .card {
+            padding: 20px;
+            border: 3px solid #66c0f4;
+            border-radius: 15px;
+            background: linear-gradient(to bottom right, #1b2838, #171a21);
+            color: #c7d5e0;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 15px #66c0f4;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+        .card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #66c0f4;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+        .card h2 {
+            margin: 10px 0;
+            color: #66c0f4;
+        }
+        .card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #66c0f4;
+            color: #1b2838;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 0 10px #66c0f4;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .card a:hover {
+            box-shadow: 0 0 20px #66c0f4;
+        }
+        .toggle-navbar-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 5;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .toggle-navbar-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: rotate(90deg);
+        }
+        @media (max-width: 768px) {
+            .toggle-navbar-btn { display: block; }
+            .navbar { flex-direction: column; align-items: center; }
+            .navbar h1 { font-size: 22px; text-align: center; margin-bottom: 10px; }
+            .nav-links { flex-direction: column; width: 100%; gap: 10px; }
+            .nav-links a { width: 100%; text-align: center; padding: 10px 0; }
+            .center-title { flex-direction: column; align-items: center; padding-top: 0; }
+        }
+        @media (max-width: 480px) {
+            .card { width: 95%; }
+        }
+    </style>
 </head>
 
 <body>
-  <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
-  <script>
-    const audio = document.getElementById('meuAudio');
-    audio.volume = 0.45;
-  </script>
+    <audio id="meuAudio" src="calma.mp3" autoplay hidden></audio>
+    <script>
+        const audio = document.getElementById('meuAudio');
+        audio.volume = 0.45;
+    </script>
 
-  <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
+    <button class="toggle-navbar-btn" onclick="toggleNavbar()">▲</button>
 
-  <div class="navbar" id="navbar">
-    <h1>SITE ALEATÓRIO DO MARCOS</h1>
-    <div class="nav-links">
-      <a href="tu.html">Home</a>
-      <div class="dropdown-container">
-        <a onclick="toggleDropdown()">Meus Jogos</a>
-        <div id="dropdown" class="dropdown">
-          <a href="rede.html">Nehum jogo :/</a>
+    <div class="navbar" id="navbar">
+        <h1>SITE ALEATÓRIO DO MARCOS</h1>
+        <div class="nav-links">
+            <a href="tu.html">Home</a>
+            <div class="dropdown-container">
+                <a onclick="toggleDropdown()">Meus Jogos</a>
+                <div id="dropdown" class="dropdown">
+                    <a href="rede.html">Nenhum jogo :/</a>
+                </div>
+            </div>
+            <a href="rede.html">Redes</a>
+            <a href="jojo.html">Chat</a>
+            <a href="jumpiscare.html">NÃO CLIQUE</a>
         </div>
-      </div>
-      <a href="rede.html">Redes</a>
-      <a href="jojo.html">Chat</a>
-      <a href="jumpiscare.html">NÃO CLIQUE</a>
-    </div>
-  </div>
-
-  <!-- Título "REDES" centralizado -->
-  <div class="page-title">REDES</div>
-
-  <div class="center-title">
-    <div id="steam-card" class="card">
-      <img id="steam-avatar" src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Avatar Steam" />
-      <h2 id="steam-name">Carregando...</h2>
-      <p>Nível: <strong id="steam-level">?</strong></p>
-      <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer">Ver perfil na Steam</a>
     </div>
 
-    <div id="youtube-card" class="card">
-      <img id="youtube-avatar" src="https://www.youtube.com/img/desktop/yt_1200.png" alt="Avatar YouTube" />
-      <h2 id="youtube-name">Carregando...</h2>
-      <p>Inscritos: <strong id="youtube-subs">...</strong></p>
-      <a id="youtube-link" href="https://www.youtube.com/@marcoss0502" target="_blank" rel="noopener noreferrer">Ver canal no YouTube</a>
+    <div class="page-title">REDES</div>
+
+    <div class="center-title">
+        <div id="steam-card" class="card">
+            <img id="steam-avatar" src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Avatar Steam" />
+            <h2 id="steam-name">Carregando...</h2>
+            <p>Nível: <strong id="steam-level">?</strong></p>
+            <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer">Ver perfil na Steam</a>
+        </div>
+
+        <div id="youtube-card" class="card">
+            <img id="youtube-avatar" src="https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png" alt="Avatar YouTube" />
+            <h2 id="youtube-name">Carregando...</h2>
+            <p>Inscritos: <strong id="youtube-subs">...</strong></p>
+            <a id="youtube-link" href="#" target="_blank" rel="noopener noreferrer">Ver canal no YouTube</a>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const apiKey = 'AAD4F39E9A2B617D0C541D6491E3CC37';
-    const steamId = '76561198981104653';
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-    async function fetchSteamData() {
-      try {
-        const summaryResponse = await fetch(
-          proxyUrl + `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`
-        );
-        const summaryData = await summaryResponse.json();
-        const player = summaryData.response.players[0];
-
-        document.getElementById('steam-avatar').src = player.avatarfull;
-        document.getElementById('steam-name').innerText = player.personaname;
-        document.getElementById('steam-link').href = player.profileurl;
-
-        const levelResponse = await fetch(
-          proxyUrl + `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId}`
-        );
-        const levelData = await levelResponse.json();
-        const lvl = levelData.response.player_level;
-        document.getElementById('steam-level').innerText = lvl;
-      } catch (e) {
-        console.error('Erro ao buscar dados da Steam:', e);
-        document.getElementById('steam-name').innerText = 'Erro ao carregar perfil.';
-        document.getElementById('steam-avatar').src = 'https://cdn-icons-png.flaticon.com/512/565/565547.png';
-        document.getElementById('steam-level').innerText = '?';
-        document.getElementById('steam-link').href = '#';
-      }
-    }
-
-    window.addEventListener('load', fetchSteamData);
-
-    function toggleDropdown() {
-      const dropdown = document.getElementById('dropdown');
-      dropdown.classList.toggle('show');
-    }
-
-    document.addEventListener('click', function (event) {
-      const dropdown = document.getElementById('dropdown');
-      const container = document.querySelector('.dropdown-container');
-      if (!container.contains(event.target)) {
-        dropdown.classList.remove('show');
-      }
-    });
-
-    function toggleNavbar() {
-      const navbar = document.getElementById('navbar');
-      const btn = document.querySelector('.toggle-navbar-btn');
-      navbar.classList.toggle('hidden');
-      btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
-    }
-  </script>
-
-  <!-- YouTube API -->
-  <script>
-    const YT_API_KEY = 'AIzaSyC8I8nK2tJulG6uHgdQLHonb3-H9QGGKMA';
-    const YT_HANDLE = 'marcoss0502';
-
-    async function buscarChannelIdPeloNomeYT(handle) {
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${handle}&key=${YT_API_KEY}`);
-      const data = await res.json();
-      const canal = data.items?.[0];
-      return canal ? canal.snippet.channelId : null;
-    }
-
-    async function buscarDadosDoCanalYT(channelId) {
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${YT_API_KEY}`);
-      const data = await res.json();
-      return data.items?.[0] || null;
-    }
-
-    async function atualizarCanalYT() {
-      try {
-        const canalId = await buscarChannelIdPeloNomeYT(YT_HANDLE);
-        if (!canalId) {
-          document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
-          return;
+    <script>
+        // Funções de UI
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('show');
         }
 
-        const canal = await buscarDadosDoCanalYT(canalId);
-        document.getElementById('youtube-name').innerText = canal.snippet.title;
-        document.getElementById('youtube-avatar').src = canal.snippet.thumbnails.high.url;
-        document.getElementById('youtube-subs').innerText = Number(canal.statistics.subscriberCount).toLocaleString();
-        document.getElementById('youtube-link').href = `https://www.youtube.com/channel/${canalId}`;
-      } catch (err) {
-        console.error('Erro ao carregar YouTube:', err);
-        document.getElementById('youtube-name').innerText = 'Erro no YouTube';
-      }
-    }
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const container = document.querySelector('.dropdown-container');
+            if (!container.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
 
-    window.addEventListener('load', atualizarCanalYT);
-    setInterval(atualizarCanalYT, 10000);
-  </script>
+        function toggleNavbar() {
+            const navbar = document.getElementById('navbar');
+            const btn = document.querySelector('.toggle-navbar-btn');
+            navbar.classList.toggle('hidden');
+            btn.innerText = navbar.classList.contains('hidden') ? '▼' : '▲';
+        }
+
+        // --- Steam API ---
+        const steamApiKey = 'SUA_NOVA_CHAVE_STEAM_AQUI'; // <--- SUBSTITUA PELA SUA NOVA CHAVE DA STEAM
+        const steamId = '76561198981104653';
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; 
+
+        async function fetchSteamData() {
+            try {
+                const summaryResponse = await fetch(
+                    proxyUrl + `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`
+                );
+                if (!summaryResponse.ok) {
+                    const errorText = await summaryResponse.text();
+                    throw new Error(`Erro na API Steam (Summary): ${summaryResponse.status} - ${errorText.substring(0, 100)}...`);
+                }
+                const summaryData = await summaryResponse.json();
+                const player = summaryData.response.players[0];
+
+                document.getElementById('steam-avatar').src = player.avatarfull;
+                document.getElementById('steam-name').innerText = player.personaname;
+                document.getElementById('steam-link').href = player.profileurl;
+
+                const levelResponse = await fetch(
+                    proxyUrl + `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${steamApiKey}&steamid=${steamId}`
+                );
+                if (!levelResponse.ok) {
+                    const errorText = await levelResponse.text();
+                    throw new Error(`Erro na API Steam (Level): ${levelResponse.status} - ${errorText.substring(0, 100)}...`);
+                }
+                const levelData = await levelResponse.json();
+                const lvl = levelData.response.player_level;
+                document.getElementById('steam-level').innerText = lvl;
+            } catch (e) {
+                console.error('Erro ao buscar dados da Steam:', e);
+                document.getElementById('steam-name').innerText = 'Erro ao carregar perfil.';
+                document.getElementById('steam-avatar').src = 'https://cdn-icons-png.flaticon.com/512/565/565547.png';
+                document.getElementById('steam-level').innerText = '?';
+                document.getElementById('steam-link').href = '#';
+            }
+        }
+
+        // --- YouTube API ---
+        const youtubeApiKey = 'AIzaSyASXn2WJOGdMDmbMx_fPiotcfGBbE9qfo8'; // <--- SUBSTITUA PELA SUA NOVA CHAVE DO YOUTUBE
+        const youtubeChannelId = 'UC_LvmUYYdStFT9u73KC4BsQ'; // <--- SUBSTITUA PELO ID CORRETO DO SEU CANAL (ex: 'UCwFh8kvtkxZK_4APy6WbgCg')
+
+        async function fetchYouTubeData() {
+            try {
+                const response = await fetch(
+                    `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${youtubeChannelId}&key=${youtubeApiKey}`
+                );
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('Erro na resposta da API do YouTube:', response.status, response.statusText, errorData);
+                    let errorMessage = `Erro ao carregar YouTube (Status: ${response.status}).`;
+                    if (errorData.error && errorData.error.message) {
+                        errorMessage += ` Detalhe: ${errorData.error.message}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                const channel = data.items[0];
+
+                if (channel) {
+                    document.getElementById('youtube-name').innerText = channel.snippet.title;
+                    document.getElementById('youtube-avatar').src = channel.snippet.thumbnails.high.url;
+                    document.getElementById('youtube-subs').innerText = Number(channel.statistics.subscriberCount).toLocaleString('pt-BR');
+                    document.getElementById('youtube-link').href = `https://www.youtube.com/channel/${youtubeChannelId}`;
+                } else {
+                    document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
+                    document.getElementById('youtube-avatar').src = 'https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png';
+                    document.getElementById('youtube-subs').innerText = '...';
+                    document.getElementById('youtube-link').href = '#';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados do YouTube (catch final):', error);
+                document.getElementById('youtube-name').innerText = 'Erro no YouTube';
+                document.getElementById('youtube-avatar').src = 'https://www.gstatic.com/youtube/img/branding/favicon/favicon_48x48.png';
+                document.getElementById('youtube-subs').innerText = '...';
+                document.getElementById('youtube-link').href = '#';
+            }
+        }
+
+        // Carregar dados ao carregar a página
+        window.addEventListener('load', () => {
+            fetchSteamData();
+            fetchYouTubeData();
+        });
+        // Desativado por enquanto para evitar sobrecarga durante o debug:
+        // setInterval(fetchYouTubeData, 10000);
+        // setInterval(fetchSteamData, 10000); 
+    </script>
 </body>
 </html>
