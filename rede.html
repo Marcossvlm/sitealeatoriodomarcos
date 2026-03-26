@@ -290,16 +290,16 @@
                     document.getElementById('youtube-name').innerText = channel.snippet.title;
                     document.getElementById('youtube-avatar').src = channel.snippet.thumbnails.high.url;
                     document.getElementById('youtube-subs').innerText = Number(channel.statistics.subscriberCount).toLocaleString('pt-BR');
-                    document.getElementById('youtube-link').href = `https://www.youtube.com/@Marcoss0502`; // Mantido o link que você tinha
+                    document.getElementById('youtube-link').href = `https://www.youtube.com/@Marcossvlm`; // Mantido o link que você tinha
                 } else {
                     document.getElementById('youtube-name').innerText = 'Canal não encontrado.';
                     document.getElementById('youtube-avatar').src = 'erro.png';
                     document.getElementById('youtube-subs').innerText = 'erro ao conectar';
-                    document.getElementById('youtube-link').href = 'https://www.youtube.com/@Marcoss0502'; // Mantido o link que você tinha
+                    document.getElementById('youtube-link').href = 'https://www.youtube.com/@Marcossvlm'; // Mantido o link que você tinha
                 }
             } catch (error) {
                 console.error('Erro ao buscar dados do YouTube (catch final):', error);
-                document.getElementById('youtube-name').innerText = 'Marcoss0502';
+                document.getElementById('youtube-name').innerText = 'Marcossvlm';
                 document.getElementById('youtube-avatar').src = 'erro.png';
                 document.getElementById('youtube-subs').innerText = 'erro ao conectar';
                 document.getElementById('youtube-link').href = ''; // Link vazio ou para uma página de erro
